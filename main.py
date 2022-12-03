@@ -1,7 +1,24 @@
-import apy_bot
+print("a")
+# import apy_bot
+# from aiogram import Bot, Dispatcher, executor, types
+#
+#
+# def main():
+#     bot_tg = Bot(token=apy_bot.telebot_api)
+#     dp_tg = Dispatcher(bot_tg)
+#
+#     async def send_welcome(message: types.Message):
+#         await message.reply(
+#             "Привет!\nОтправь мне любое сообщение, а я тебе обязательно отвечу.")
+#
+#     async def echo(message: types.Message):
+#         await message.answer(message.text)
 
-def main():
-    print(apy_bot.telebot_api)
+    # print(apy_bot.telebot_api)
+
+# if __name__ == '__main__':
+#    executor.start_polling(dp_tg, skip_updates=True)
+
 
 
 # if __name__ == '__main__':
