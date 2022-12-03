@@ -24,10 +24,15 @@ dp_telegramm = Dispatcher(bot_telegramm)
 bot_discord = commands.Bot(intents=discord.Intents.default(), command_prefix='><')
 client_discord = discord.Client(intents=discord.Intents.default())
 
+# global v_s
+
+
 @bot_discord.event
 async def on_ready():
     while True:
-        await tester()
+        # await tester()
+        print("Discord_bot on_ready")
+        await last_message()
         random_poss = random.randint(55, 180)
         random_poss = 1000
         await asyncio.sleep(random_poss)
@@ -37,6 +42,19 @@ async def tester():
     channel = bot_discord.get_channel(982160360897396736)
     await channel.send("test")
 
+#////////
+@bot_discord.event
+async def last_message():
+    channel = bot_discord.get_channel(982160360897396736)
+    # if message.channel == channel and not message.author.bot:
+    #     await message.channel.send('В этот канал отправлено сообщение')
+    await channel.send("tester")
+    print("1")
+    messages = await channel.history(limit=500).flatten()
+    # v_s = await channel.history(limit=30).flatten()
+    print("2")
+    for msg in v_s:
+        print(msg)
 
 @dp_telegramm.message_handler(commands=['start'])
 async def send_welcome(message: types.Message):
