@@ -24,8 +24,14 @@ dp_telegramm = Dispatcher(bot_telegramm)
 bot_discord = commands.Bot(intents=discord.Intents.default(), command_prefix='><')
 client_discord = discord.Client(intents=discord.Intents.default())
 
-# global v_s
+v_s_old = "2"
 
+def telegramm_send_all(text):
+    params = {
+        'chat_id': apy_bot.user_id,
+        'text': text,
+    }
+    response = requests.get('https://api.telegram.org/bot' + apy_bot.telebot_api + '/sendMessage', params=params)
 
 @bot_discord.event
 async def on_ready():
@@ -44,20 +50,19 @@ async def tester():
 
 @bot_discord.event
 async def last_message():
+    global  v_s
+    global v_s_old
     channel = bot_discord.get_channel(982160360897396736)
-    # if message.channel == channel and not message.author.bot:
-    #     await message.channel.send('В этот канал отправлено сообщение')
-    # await channel.send("tester")
-    print("1")
     messages = [message async for message in channel.history(limit=1)]
-    #messages = await channel.history(limit=200).flatten()
     for msg in messages:
-        print(msg.content)
-    # messages = await channel.history(limit=500).flatten()
-    # v_s = await channel.history(limit=30).flatten()
-    print("2")
-    # for msg in v_s:
-    #     print(msg)
+        v_s = msg.content
+    # print(v_s)
+    # print(v_s_old)
+    if v_s != v_s_old:
+        telegramm_send_all(msg.content)
+        v_s_old = v_s
+
+
 
 @dp_telegramm.message_handler(commands=['start'])
 async def send_welcome(message: types.Message):
@@ -68,7 +73,6 @@ async def send_welcome(message: types.Message):
 async def echo(message: types.Message):
     text = message.text
     await message.answer(text)
-
 
 
 def main():
