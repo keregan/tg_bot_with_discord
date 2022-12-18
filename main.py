@@ -17,6 +17,10 @@ from concurrent.futures import ThreadPoolExecutor
 #                          "me/102.0.0.0 Safari/537.36"}
 # url = "https://yobit.net/api/3/info"
 
+# headers = {"user agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chro"
+#                          "me/102.0.0.0 Safari/537.36"}
+# url = "https://yobit.net/api/3/info"
+
 bot_telegramm = Bot(token=apy_bot.telebot_api)
 dp_telegramm = Dispatcher(bot_telegramm)
 
