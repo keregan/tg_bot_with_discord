@@ -63,22 +63,26 @@ async def last_message():
     id_person = ""
     user_id_info = ""
     for msg in messages:
+        text_message = "-" + str(msg.author)[:-5] + " (" + str(msg.created_at.strftime('%H:%M')) + ")-\n\n" + str(msg.content) + "\nㅤ"
         if "<@" in msg.content:
             i = 0
             while i != len(str(msg.content)):
                 if msg.content[i] == "@" and msg.content[i-1] == "<":
                     i = i + 1
+
                     while msg.content[i] != ">" and i != len(str(msg.content)):
                         id_person = id_person + msg.content[i]
                         i += 1
+
+                    for users in apy_bot.user_id_tg:
+                        if str(users[2:-1]) == str(id_person):
+                            user_id_info = apy_bot.user_id_tg[users]
+                            print(user_id_info)
+                            text_message = text_message.replace("<@" + id_person + ">", user_id_info)
+
                 else:
                     i = i + 1
 
-            for users in apy_bot.user_id_tg:
-                if str(users[2:-1]) == str(id_person):
-                    user_id_info = apy_bot.user_id_tg[users]
-            text_message = "-" + str(msg.author)[:-5] + " (" + str(msg.created_at.strftime('%H:%M')) + ")-\n\n" + str(msg.content) + "\nㅤ"
-            text_message = text_message.replace("<@" + id_person + ">", user_id_info)
         else:
             text_message = "-" + str(msg.author)[:-5] + " (" + str(msg.created_at.strftime('%H:%M')) + ")-\n\n" + str(msg.content) + "\nㅤ"
         # text_datatime = msg.created_at
