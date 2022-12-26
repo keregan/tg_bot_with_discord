@@ -54,18 +54,31 @@ async def tester():
 
 @bot_discord.event
 async def last_message():
-    global  text_message
+    global text_message
+    global id_person
+    global user_id_info
     channel = bot_discord.get_channel(982160360897396736) # Test_bot
     # channel = bot_discord.get_channel(956436179320983562) # Music
     messages = [message async for message in channel.history(limit=1)]
-
+    id_person = ""
+    user_id_info = ""
     for msg in messages:
         if "<@" in msg.content:
-            print("Обращение имеется")
-        if msg.content == apy_bot.kereg_id:
-            text_message = apy_bot.kereg_id_tg
-        elif msg.content == apy_bot.funneks_id:
-            text_message = apy_bot.funneks_id_tg
+            i = 0
+            while i != len(str(msg.content)):
+                if msg.content[i] == "@" and msg.content[i-1] == "<":
+                    i = i + 1
+                    while msg.content[i] != ">" and i != len(str(msg.content)):
+                        id_person = id_person + msg.content[i]
+                        i += 1
+                else:
+                    i = i + 1
+
+            for users in apy_bot.user_id_tg:
+                if str(users[2:-1]) == str(id_person):
+                    user_id_info = apy_bot.user_id_tg[users]
+            text_message = "-" + str(msg.author)[:-5] + " (" + str(msg.created_at.strftime('%H:%M')) + ")-\n\n" + str(msg.content) + "\nㅤ"
+            text_message = text_message.replace("<@" + id_person + ">", user_id_info)
         else:
             text_message = "-" + str(msg.author)[:-5] + " (" + str(msg.created_at.strftime('%H:%M')) + ")-\n\n" + str(msg.content) + "\nㅤ"
         # text_datatime = msg.created_at
