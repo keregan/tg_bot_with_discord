@@ -60,6 +60,8 @@ async def last_message():
     messages = [message async for message in channel.history(limit=1)]
 
     for msg in messages:
+        if "<@" in msg.content:
+            print("Обращение имеется")
         if msg.content == apy_bot.kereg_id:
             text_message = apy_bot.kereg_id_tg
         elif msg.content == apy_bot.funneks_id:
