@@ -55,13 +55,19 @@ async def tester():
 @bot_discord.event
 async def last_message():
     global  text_message
-    channel = bot_discord.get_channel(982160360897396736)
+    channel = bot_discord.get_channel(982160360897396736) # Test_bot
+    # channel = bot_discord.get_channel(956436179320983562) # Music
     messages = [message async for message in channel.history(limit=1)]
 
     for msg in messages:
-        # text_author = msg.author
-        text_message = str(msg.author)[:-5] + " " + str(msg.created_at.strftime('%Y-%m-%d %H:%M:%S')) + " " + str(msg.content)
+        if msg.content == apy_bot.kereg_id:
+            text_message = apy_bot.kereg_id_tg
+        elif msg.content == apy_bot.funneks_id:
+            text_message = apy_bot.funneks_id_tg
+        else:
+            text_message = "-" + str(msg.author)[:-5] + " (" + str(msg.created_at.strftime('%H:%M')) + ")-\n\n" + str(msg.content) + "\nㅤ"
         # text_datatime = msg.created_at
+        # text_author = msg.author
         # text_jet = str(msg.author)[:-5] + " " + str(msg.created_at.strftime('%Y-%m-%d %H:%M:%S')) + " " + str(msg.content)
         # print(text_jet)
 
@@ -71,7 +77,7 @@ async def last_message():
 
         if text_message != last_message["last_mess"]:
             telegramm_send_all(text_message)
-            print(text_message)
+            # print(text_message)
             last_message["last_mess"] = text_message
             with open("last_message.json", "w", encoding='utf-8') as file_json:
                 json.dump(last_message, file_json, indent=4, ensure_ascii=False)
@@ -84,10 +90,10 @@ async def send_welcome(message: types.Message):
     await message.reply("Привет!\nОтправь мне любое сообщение, а я тебе обязательно отвечу.")
 
 
-@dp_telegramm.message_handler()
-async def echo(message: types.Message):
-    text = message.text
-    await message.answer(text)
+# @dp_telegramm.message_handler()
+# async def echo(message: types.Message):
+#     text = message.text
+#     await message.answer(text)
 
 
 def main():
