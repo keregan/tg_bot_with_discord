@@ -77,9 +77,8 @@ async def last_message():
                     for users in apy_bot.user_id_tg:
                         if str(users[2:-1]) == str(id_person):
                             user_id_info = apy_bot.user_id_tg[users]
-                            print(user_id_info)
                             text_message = text_message.replace("<@" + id_person + ">", user_id_info)
-
+                            id_person = ""
                 else:
                     i = i + 1
 
