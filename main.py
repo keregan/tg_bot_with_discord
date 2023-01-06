@@ -41,6 +41,7 @@ async def on_ready():
         # await tester()
         # print("Discord_bot on_ready")
         await last_message()
+        await last_message_tg()
         random_poss = random.randint(55, 180)
         random_poss = 3
         await asyncio.sleep(random_poss)
@@ -50,6 +51,19 @@ async def on_ready():
 async def tester():
     channel = bot_discord.get_channel(982160360897396736)
     await channel.send("test")
+
+@bot_discord.event
+async def last_message_tg():
+    channel = bot_discord.get_channel(982160360897396736) # Test_bot
+    # channel = bot_discord.get_channel(956436179320983562) # Music
+    with open('last_message.json', encoding='utf-8') as file_json:
+        last_message_tg = json.load(file_json)
+
+    print(last_message_tg["last_mess_tg"])
+    try:
+        pass
+    except:
+        pass
 
 
 @bot_discord.event
@@ -108,10 +122,17 @@ async def send_welcome(message: types.Message):
     await message.reply("Привет!\nОтправь мне любое сообщение, а я тебе обязательно отвечу.")
 
 
-# @dp_telegramm.message_handler()
-# async def echo(message: types.Message):
-#     text = message.text
-#     await message.answer(text)
+@dp_telegramm.message_handler()
+async def echo(message: types.Message):
+    text = message.text
+    with open('last_message.json', encoding='utf-8') as file_json:
+        last_message_tg = json.load(file_json)
+
+    if text != last_message_tg["last_mess_tg"]:
+        last_message_tg["last_mess_tg"] = text
+        with open("last_message.json", "w", encoding='utf-8') as file_json:
+            json.dump(last_message_tg, file_json, indent=4, ensure_ascii=False)
+    await message.answer(text)
 
 
 def main():
